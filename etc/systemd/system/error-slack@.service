@@ -1,0 +1,6 @@
+[Unit]
+Description=Reports systemd timer error to Slack
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/systemd-error-slack %i

@@ -1,0 +1,9 @@
+[Unit]
+Description=Timer for nightly backup target
+
+[Timer]
+OnCalendar=Tue..Sun *-*-* 01:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

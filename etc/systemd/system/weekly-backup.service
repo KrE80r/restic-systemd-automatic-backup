@@ -1,0 +1,14 @@
+[Unit]
+Description=Weekly backup job
+OnFailure=error-slack@weekly-backup.service
+Conflicts=nightly-backup.service
+
+[Service]
+Type=oneshot
+Nice=10
+User=<user-name-here>
+Environment="HOME=/home/<user-name-here>"
+ExecStart=/usr/bin/gmvault sync -d <path-to-gmvault-db-here>  <example-user@gmail.com>
+ExecStart=/usr/local/sbin/restic_backup.sh
+ExecStart=/usr/bin/rclone -v sync <path-to-local-restic-repository> gcloud:<name-of-gcs-bucket-for-restic-repo>
+ExecStart=/usr/local/sbin/restic_check.sh

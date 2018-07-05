@@ -1,0 +1,14 @@
+[Unit]
+Description=Nightly backup job
+# On errors, send a Slack notification
+OnFailure=error-slack@nightly-backup.service 
+Conflicts=weekly-backup.service
+
+[Service]
+Type=oneshot
+Nice=10
+User=<user-name-here>
+Environment="HOME=/home/<user-name-here>"
+ExecStart=/usr/bin/gmvault sync -d <path-to-gmvault-db-here>  <example-user@gmail.com> -t quick
+ExecStart=/usr/local/sbin/restic_backup.sh
+ExecStart=/usr/bin/rclone -v sync <path-to-local-restic-repository> gcloud:<name-of-gcs-bucket-for-restic-repo>
